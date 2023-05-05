@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Exercise_1</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Ubuntu&display=swap");
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: "Ubuntu", sans-serif;
+        color: rgba(18, 18, 18, 95%);
+        font-size: 21px;
+        box-sizing: border-box;
+      }
+      #exercise-text {
+        resize: none;
+        cursor: default;
+        box-sizing: border-box;
+        padding: 15px;
+        width: 100%;
+        height: 230px;
+        font-family: "Ubuntu", sans-serif;
+        color: rgba(18, 18, 18, 95%);
+        font-size: 21px;
+        text-align: justify;
+        border: 2px solid rgba(18, 18, 18, 95%);
+      }
+      form {
+        margin: 50px;
+        padding: 10px;
+        width: 700px;
+      }
+      form > div,
+      form > textarea,
+      form > button {
+        margin: 5px auto;
+      }
+      #calc-btn {
+        border: none;
+        padding: 15px;
+        width: 200px;
+        font-family: "Ubuntu", sans-serif;
+        color: rgba(18, 18, 18, 95%);
+        background-color: rgba(200, 200, 200, 0.8);
+        font-size: 21px;
+        cursor: pointer;
+      }
+      #calc-btn:hover {
+        background-color: rgb(200, 200, 200);
+        transition: background-color 0.2s;
+      }
+      #calc-btn:active,
+      #calc-btn:focus {
+        outline: 0;
+        outline-offset: 0;
+      }
+      input[type="text"] {
+        font-family: "Ubuntu", sans-serif;
+        color: rgba(18, 18, 18, 95%);
+        font-size: 21px;
+        border: 2px solid rgba(18, 18, 18, 95%);
+      }
+      .fields {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: stretch;
+      }
+      #result {
+        cursor: auto;
+      }
+      input[type="text"]:active,
+      input[type="text"]:hover,
+      input[type="text"]:focus {
+        outline: 0;
+        outline-offset: 0;
+      }
+      #exercise-text:active,
+      #exercise-text:hover,
+      #exercise-text:focus {
+        outline: 0;
+        outline-offset: 0;
+      }
+
+      /* Модальное окно */
+      .modal,
+      .modal-for-NaN {
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100vh;
+        z-index: 0;
+        background-color: rgba(0, 0, 0, 0.3);
+        display: grid;
+        align-items: center;
+        justify-content: center;
+        overflow-y: auto;
+        visibility: hidden;
+        opacity: 0;
+        transition: opacity 0.3s, visibility 0.3s;
+      }
+      .modal-box,
+      .modal-box-for-NaN {
+        position: relative;
+        max-width: 500px;
+        padding: 45px;
+        z-index: 1;
+        background-color: white;
+        margin: 30px 15px;
+      }
+      .modal-close-btn,
+      .modal-close-btn-for-NaN {
+        border: none;
+        background-color: rgba(72, 72, 255, 0.8);
+        padding: 10px;
+        position: absolute;
+        bottom: 20px;
+        right: 20px;
+        width: 80px;
+        height: fit-content;
+        color: white;
+        cursor: pointer;
+        font-family: "Ubuntu", sans-serif;
+        font-size: 16px;
+      }
+      .modal-close-btn:hover,
+      .modal-close-btn-for-NaN:hover {
+        background-color: rgb(72, 72, 255);
+        transition: background-color 0.2s;
+      }
+      .modal.open,
+      .modal-for-NaN.open {
+        visibility: visible;
+        opacity: 1;
+      }
+      .modal-box > p,
+      .modal-box-for-NaN > p {
+        margin-bottom: 50px;
+      }
+    </style>
+  </head>
+  <body>
+    <form action="" class="form" id="main-form">
+      <textarea id="exercise-text" readonly>
+Написать скрипт, который находит среднее арифметическое введённых значений и выводит результат в поле формы при нажатии на кнопку "Вычислить". В программе предусмотреть обработку исключительной ситуации, когда пользователь не ввёл значения (хотя бы одно) или введённые значения не являются числами, с выводом сообщения в модальном окне. Модальное окно реализовать самостоятельно, не используя стандартные диалоговые окна объекта window.</textarea
+      >
+      <div class="fields">
+        <label for="first-number">Введите число a:</label>
+        <input type="text" class="numbers" id="first-number" />
+      </div>
+      <div class="fields">
+        <label for="second-number">Введите число b:</label>
+        <input type="text" class="numbers" id="second-number" />
+      </div>
+      <div class="fields">
+        <label for="third-number">Введите число c:</label>
+        <input type="text" class="numbers" id="third-number" />
+      </div>
+      <div class="fields">
+        <label for="result">Результат выполнения программы:</label>
+        <input type="text" id="result" readonly />
+      </div>
+      <button id="calc-btn">Вычислить</button>
+    </form>
+
+    <div class="modal" id="modal-window">
+      <div class="modal-box">
+        <button id="close-btn" class="modal-close-btn">ОК</button>
+        <p>Проверьте поля ввода. Необходимо ввести число!</p>
+      </div>
+    </div>
+    <div class="modal-for-NaN" id="modal-window-for-NaN">
+      <div class="modal-box-for-NaN">
+        <button id="close-btn-for-NaN" class="modal-close-btn-for-NaN">
+          ОК
+        </button>
+        <p>
+          Проверьте правильность вводимого значения в полях ввода. Необходимо
+          ввести число!
+        </p>
+      </div>
+    </div>
+    <script>
+      function validation() {
+        let result = true;
+        const numbers = document.querySelectorAll(".numbers");
+
+        for (const number of numbers) {
+          if (number.value === "") {
+            document.getElementById("modal-window").classList.add("open");
+            result = false;
+            break;
+          }
+          if (isNaN(number.value)) {
+            document
+              .getElementById("modal-window-for-NaN")
+              .classList.add("open");
+            result = false;
+            break;
+          }
+        }
+
+        return result;
+      }
+
+      document
+        .getElementById("main-form")
+        .addEventListener("submit", function (event) {
+          event.preventDefault();
+
+          if (validation() === true) {
+            let numbers = document.querySelectorAll(".numbers");
+            let sumOfNumbers = 0;
+            numbers.forEach((number) => {
+              sumOfNumbers += +number.value;
+            });
+
+            document.getElementById("result").value =
+              sumOfNumbers / numbers.length;
+          }
+        });
+
+      document
+        .getElementById("close-btn")
+        .addEventListener("click", function () {
+          document.getElementById("modal-window").classList.remove("open");
+        });
+      window.addEventListener("keyup", (event) => {
+        if (event.keyCode === 27) {
+          document.getElementById("modal-window").classList.remove("open");
+        }
+        if (event.keyCode === 13) {
+          document.getElementById("modal-window").classList.remove("open");
+        }
+      });
+      document
+        .querySelector("#modal-window .modal-box")
+        .addEventListener("click", (event) => {
+          event._isClickWithInModal = true;
+        });
+      document
+        .getElementById("modal-window")
+        .addEventListener("click", (event) => {
+          if (event._isClickWithInModal) {
+            return;
+          }
+          event.currentTarget.classList.remove("open");
+        });
+
+      document
+        .getElementById("close-btn-for-NaN")
+        .addEventListener("click", function () {
+          document
+            .getElementById("modal-window-for-NaN")
+            .classList.remove("open");
+        });
+      window.addEventListener("keyup", (event) => {
+        if (event.keyCode === 27) {
+          document
+            .getElementById("modal-window-for-NaN")
+            .classList.remove("open");
+        }
+        if (event.keyCode === 13) {
+          document
+            .getElementById("modal-window-for-NaN")
+            .classList.remove("open");
+        }
+      });
+      document
+        .querySelector("#modal-window-for-NaN .modal-box-for-NaN")
+        .addEventListener("click", (event) => {
+          event._isClickWithInModal = true;
+        });
+      document
+        .getElementById("modal-window-for-NaN")
+        .addEventListener("click", (event) => {
+          if (event._isClickWithInModal) {
+            return;
+          }
+          event.currentTarget.classList.remove("open");
+        });
+    </script>
+  </body>
+</html>

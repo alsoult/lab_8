@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Exercise_3</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&display=swap");
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: "Ubuntu", sans-serif;
+        color: rgba(18, 18, 18, 95%);
+        font-size: 21px;
+        box-sizing: border-box;
+      }
+      form {
+        margin: 50px;
+        padding: 20px;
+        width: 700px;
+        background-color: rgb(242, 242, 242);
+        border-radius: 5px;
+      }
+      h2 {
+        margin-top: 5px;
+        margin-bottom: 30px;
+      }
+      span {
+        font-weight: 700;
+      }
+      hr {
+        margin: 0;
+        margin-bottom: 30px;
+        border: none;
+        width: 100px;
+        height: 10px;
+        background-color: rgba(18, 18, 18, 95%);
+      }
+      .line-align {
+        margin-bottom: 10px;
+      }
+      fieldset {
+        margin: 0;
+        border-style: solid;
+        border-color: rgba(200, 200, 200, 0.8);
+        width: fit-content;
+      }
+      .field {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 10px;
+      }
+      .color-field {
+        height: 170px;
+        display: flex;
+        align-items: center;
+      }
+      .text {
+        margin-top: 10px;
+        margin-bottom: 5px;
+      }
+      input[type="text"] {
+        font-family: "Ubuntu", sans-serif;
+        color: rgba(18, 18, 18, 95%);
+        font-size: 16px;
+        background-color: rgb(242, 242, 242);
+        border: 1px solid rgba(18, 18, 18, 95%);
+      }
+      input[type="text"]:active,
+      input[type="text"]:hover,
+      input[type="text"]:focus {
+        outline: 0;
+        outline-offset: 0;
+      }
+      #line-color {
+        font-family: "Ubuntu", sans-serif;
+        color: rgba(18, 18, 18, 95%);
+        background-color: rgb(242, 242, 242);
+        border: 1px solid rgba(18, 18, 18, 95%);
+      }
+      #line-color:active,
+      #line-color:hover,
+      #line-color:focus {
+        outline: 0;
+        outline-offset: 0;
+      }
+      .parameters {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: flex-end;
+        gap: 20px;
+      }
+      #set-btn,
+      #reset-btn {
+        margin-top: 20px;
+        padding: 10px;
+        width: 150px;
+        font-family: "Ubuntu", sans-serif;
+        color: rgba(18, 18, 18, 95%);
+        background-color: rgba(200, 200, 200, 0.8);
+        font-size: 16px;
+        font-weight: 500;
+        text-transform: uppercase;
+        border: none;
+        cursor: pointer;
+      }
+      #set-btn {
+        margin-right: 10px;
+      }
+      #set-btn:hover,
+      #reset-btn:hover {
+        background-color: rgb(189, 189, 189);
+        transition: background-color 0.2s;
+      }
+      #set-btn:active,
+      #reset-btn:focus {
+        outline: 0;
+        outline-offset: 0;
+      }
+      .error .info {
+        border-color: rgba(255, 19, 19, 0.9);
+      }
+      .error-label {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        margin-bottom: 10px;
+        color: rgba(255, 19, 19, 0.9);
+        font-size: 14px;
+      }
+    </style>
+  </head>
+  <body>
+    <form action="" class="form" id="main-form">
+      <h2>Горизонтальные линии</h2>
+      <p>
+        Выберите значения параметров, которые требуется изменить, и нажмите
+        кнопку <span>Выполнить</span>.
+      </p>
+      <hr />
+      <div class="parameters">
+        <fieldset>
+          <div class="line-align">
+            <label>Выравнивание</label>
+          </div>
+          <div class="field">
+            <input type="radio" name="align" id="left-align" checked />
+            <label for="left-align">LEFT</label>
+          </div>
+          <div class="field">
+            <input type="radio" name="align" id="center-align" />
+            <label for="center-align">CENTER</label>
+          </div>
+          <div class="field">
+            <input type="radio" name="align" id="right-align" />
+            <label for="right-align">RIGHT</label>
+          </div>
+          <div>
+            <div class="field text">
+              <input type="text" id="size-of-line" class="info" />
+              <label for="size-of-line">толщина линии (size)</label>
+            </div>
+          </div>
+          <div>
+            <div class="field text">
+              <input type="text" id="width-of-line" class="info" />
+              <label for="width-of-line">длина линии (width)</label>
+            </div>
+          </div>
+        </fieldset>
+        <fieldset class="color-field">
+          <legend>Цвет линии</legend>
+          <div class="color-select">
+            <select name="colors" id="line-color">
+              <option value="">Выберите цвет</option>
+              <option value="black">black</option>
+              <option value="white">white</option>
+              <option value="green">green</option>
+              <option value="blue">blue</option>
+              <option value="yellow">yellow</option>
+              <option value="orange">orange</option>
+              <option value="purple">purple</option>
+              <option value="pink">pink</option>
+              <option value="olive">olive</option>
+              <option value="navy">navy</option>
+              <option value="teal">teal</option>
+              <option value="gray">gray</option>
+              <option value="silver">silver</option>
+              <option value="fuchsia">fuchsia</option>
+            </select>
+          </div>
+        </fieldset>
+      </div>
+      <input type="submit" id="set-btn" value="Выполнить" />
+      <input type="reset" id="reset-btn" value="Обновить" />
+    </form>
+
+    <script>
+      function validation() {
+        function removeError(input) {
+          const parentOfInput = input.parentNode.parentNode;
+
+          if (parentOfInput.classList.contains("error")) {
+            parentOfInput.querySelector(".error-label").remove();
+            parentOfInput.classList.remove("error");
+          }
+        }
+
+        function createError(input, text) {
+          const parentOfInput = input.parentNode.parentNode;
+          const errorLabel = document.createElement("label");
+
+          errorLabel.classList.add("error-label");
+          errorLabel.textContent = text;
+
+          parentOfInput.classList.add("error");
+          parentOfInput.append(errorLabel);
+        }
+
+        let result = true;
+
+        document.querySelectorAll(".info").forEach((input, index) => {
+          removeError(input);
+          if (isNaN(input.value)) {
+            removeError(input);
+            createError(
+              input,
+              "Введено нечисловое значение. Необходимо ввести число!"
+            );
+            result = false;
+          }
+          if (+input.value < 0) {
+            removeError(input);
+            createError(input, "Необходимо ввести неотрицательное число!");
+            result = false;
+          }
+          if (index === 1) {
+            if (+input.value > 700) {
+              removeError(input);
+              createError(input, "Необходимо ввести число от 0 до 700!");
+              result = false;
+            }
+          }
+        });
+
+        return result;
+      }
+
+      document
+        .getElementById("main-form")
+        .addEventListener("submit", (event) => {
+          event.preventDefault();
+
+          if (validation()) {
+            if (document.getElementById("center-align").checked === true) {
+              document.querySelector("hr").style = "";
+              document.querySelector("hr").style.margin = "auto";
+              document.querySelector("hr").style.marginBottom = "30px";
+            }
+            if (document.getElementById("right-align").checked === true) {
+              document.querySelector("hr").style = "";
+              document.querySelector("hr").style.margin = "auto";
+              document.querySelector("hr").style.marginInlineEnd = "0";
+              document.querySelector("hr").style.marginBottom = "30px";
+            }
+            if (document.getElementById("left-align").checked === true) {
+              document.querySelector("hr").style = "";
+              document.querySelector("hr").style.margin = "0";
+              document.querySelector("hr").style.marginBottom = "30px";
+            }
+
+            if (document.getElementById("line-color").value !== "") {
+              document.querySelector("hr").style.backgroundColor =
+                document.getElementById("line-color").value;
+            }
+
+            if (document.querySelectorAll(".info")[0].value !== "") {
+              document.querySelector("hr").style.height =
+                document.querySelectorAll(".info")[0].value + "px";
+            }
+            if (document.querySelectorAll(".info")[1].value !== "") {
+              document.querySelector("hr").style.width =
+                document.querySelectorAll(".info")[1].value + "px";
+            }
+          }
+        });
+
+      document.getElementById("main-form").addEventListener("reset", () => {
+        document.querySelector("hr").style = "";
+      });
+    </script>
+  </body>
+</html>

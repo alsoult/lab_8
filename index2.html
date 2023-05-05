@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Exercise_2</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&display=swap");
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: "Ubuntu", sans-serif;
+        color: rgba(18, 18, 18, 95%);
+        font-size: 21px;
+        box-sizing: border-box;
+      }
+      form {
+        margin: 50px;
+        padding: 20px;
+        width: 800px;
+        background-color: rgb(242, 242, 242);
+        border-radius: 5px;
+      }
+      h3 {
+        margin-top: 5px;
+        margin-bottom: 30px;
+        padding-bottom: 5px;
+        text-align: center;
+        border-bottom: 2px solid rgba(18, 18, 18, 95%);
+      }
+      .body {
+        padding-left: 25px;
+        width: 400px;
+      }
+      .form-input {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 5px;
+      }
+      .img {
+        height: 40px;
+        margin-bottom: 5px;
+        display: flex;
+        justify-content: flex-end;
+      }
+      img {
+        border: 1px solid rgba(18, 18, 18, 95%);
+      }
+      input[type="text"] {
+        font-family: "Ubuntu", sans-serif;
+        color: rgba(18, 18, 18, 95%);
+        font-size: 16px;
+        background-color: rgb(242, 242, 242);
+        border: 1px solid rgba(18, 18, 18, 95%);
+      }
+      input[type="text"]:active,
+      input[type="text"]:hover,
+      input[type="text"]:focus {
+        outline: 0;
+        outline-offset: 0;
+      }
+      #subject-select {
+        font-family: "Ubuntu", sans-serif;
+        color: rgba(18, 18, 18, 95%);
+        background-color: rgb(242, 242, 242);
+        border: 1px solid rgba(18, 18, 18, 95%);
+      }
+      #subject-select:active,
+      #subject-select:hover,
+      #subject-select:focus {
+        outline: 0;
+        outline-offset: 0;
+      }
+      #find-btn {
+        margin-top: 20px;
+        padding: 5px;
+        width: 100px;
+        font-family: "Ubuntu", sans-serif;
+        color: rgba(18, 18, 18, 95%);
+        background-color: rgba(200, 200, 200, 0.8);
+        font-size: 16px;
+        text-transform: uppercase;
+        border: none;
+        cursor: pointer;
+      }
+      #find-btn:hover {
+        background-color: rgb(189, 189, 189);
+        transition: background-color 0.2s;
+      }
+      #find-btn:active,
+      #find-btn:focus {
+        outline: 0;
+        outline-offset: 0;
+      }
+      .error .info,
+      .error #subject-select {
+        border-color: rgba(255, 19, 19, 0.9);
+      }
+      .error-label {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        margin-bottom: 10px;
+        color: rgba(255, 19, 19, 0.9);
+        font-size: 14px;
+      }
+    </style>
+  </head>
+  <body>
+    <form action="" class="form" id="main-form">
+      <h3>База содержит результаты централизованного тестирования</h3>
+      <div class="body">
+        <div>
+          <div class="form-input">
+            <label for="passport-series">Серия паспорта</label>
+            <input type="text" class="info" id="passport-series" />
+          </div>
+        </div>
+        <div>
+          <div class="form-input">
+            <label for="passport-number">Номер паспорта</label>
+            <input type="text" class="info" id="passport-number" />
+          </div>
+        </div>
+        <div>
+          <div class="form-input">
+            <label for="form-number">Номер бланка</label>
+            <input type="text" class="info" id="form-number" />
+          </div>
+        </div>
+        <div>
+          <div class="form-input">
+            <label for="subject-select">Предмет</label>
+            <select name="subjects" id="subject-select">
+              <option value="">Выберите предмет</option>
+              <option value="russian">Русский язык</option>
+              <option value="belorussian">Белорусский язык</option>
+              <option value="maths">Математика</option>
+              <option value="physics">Физика</option>
+            </select>
+          </div>
+        </div>
+        <div class="img"></div>
+        <div>
+          <div class="form-input">
+            <label for="image-code">Код на картинке</label>
+            <input type="text" class="info" id="image-code" />
+          </div>
+        </div>
+        <button id="find-btn">Найти</button>
+      </div>
+    </form>
+
+    <script>
+      let randomImg;
+      function getImage() {
+        randomImg = Math.floor(Math.random() * 5) + 1;
+        return '<img src="img\\' + randomImg + '.svg" />';
+      }
+      document.querySelector(".img").innerHTML = getImage();
+
+      let arrOfNum = {
+        1: [4, 3, 5, 2, 7, 8],
+        2: [1, 5, 7, 2, 3, 9],
+        3: [5, 2, 8, 3, 5, 1],
+        4: [9, 5, 7, 1, 2, 3],
+        5: [4, 1, 0, 3, 5, 2],
+      };
+
+      // -------------------------------------
+
+      function validation() {
+        function removeError(input) {
+          const parentOfInput = input.parentNode.parentNode;
+
+          if (parentOfInput.classList.contains("error")) {
+            parentOfInput.querySelector(".error-label").remove();
+            parentOfInput.classList.remove("error");
+          }
+        }
+
+        function createError(input, text) {
+          const parentOfInput = input.parentNode.parentNode;
+          const errorLabel = document.createElement("label");
+
+          errorLabel.classList.add("error-label");
+          errorLabel.textContent = text;
+
+          parentOfInput.classList.add("error");
+          parentOfInput.append(errorLabel);
+        }
+
+        let result = true;
+
+        document.querySelectorAll(".info").forEach((input, index) => {
+          removeError(input);
+          if (input.value === "") {
+            switch (index) {
+              case 0:
+                createError(input, "Введите серию паспорта");
+                break;
+              case 1:
+                createError(input, "Введите номер паспорта");
+                break;
+              case 2:
+                createError(input, "Введите номер бланка");
+                break;
+              case 3:
+                createError(input, "Введите код");
+                break;
+              default:
+                break;
+            }
+            result = false;
+          } else {
+            switch (index) {
+              case 0:
+                if (input.value.length !== 4) {
+                  removeError(input);
+                  createError(input, "Необходимо ввести 4-значное число!");
+                  result = false;
+                }
+                if (+input.value < 0) {
+                  removeError(input);
+                  createError(
+                    input,
+                    "Необходимо ввести 4-значное неотрицательное число!"
+                  );
+                  result = false;
+                }
+                break;
+              case 1:
+                if (input.value.length !== 7) {
+                  removeError(input);
+                  createError(input, "Необходимо ввести 7-значное число!");
+                  result = false;
+                }
+                if (+input.value < 0) {
+                  removeError(input);
+                  createError(
+                    input,
+                    "Необходимо ввести 7-значное неотрицательное число!"
+                  );
+                  result = false;
+                }
+                break;
+              case 2:
+                if (input.value.length !== 7) {
+                  removeError(input);
+                  createError(input, "Необходимо ввести 7-значное число!");
+                  result = false;
+                }
+                if (+input.value < 0) {
+                  removeError(input);
+                  createError(
+                    input,
+                    "Необходимо ввести 7-значное неотрицательное число!"
+                  );
+                  result = false;
+                }
+                break;
+              case 3:
+                if (+input.value < 0) {
+                  removeError(input);
+                  createError(
+                    input,
+                    "Необходимо ввести 6-значное неотрицательное число!"
+                  );
+                  result = false;
+                } else if (input.value.length !== 6) {
+                  removeError(input);
+                  createError(input, "Необходимо ввести 6-значное число!");
+                  result = false;
+                } else {
+                  for (let i = 0; i < input.value.length; i++) {
+                    if (+input.value[i] !== arrOfNum[randomImg][i]) {
+                      removeError(input);
+                      createError(input, "Неправильно введён код!");
+                      result = false;
+                      break;
+                    }
+                  }
+                }
+                break;
+              default:
+                break;
+            }
+          }
+          if (isNaN(input.value)) {
+            removeError(input);
+            createError(
+              input,
+              "Введено нечисловое значение. Необходимо ввести число!"
+            );
+            result = false;
+          }
+        });
+
+        if (document.getElementById("subject-select").value === "") {
+          removeError(document.getElementById("subject-select"));
+          createError(
+            document.getElementById("subject-select"),
+            "Выберите предмет"
+          );
+          result = false;
+        } else {
+          removeError(document.getElementById("subject-select"));
+        }
+
+        return result;
+      }
+
+      document
+        .getElementById("main-form")
+        .addEventListener("submit", (event) => {
+          event.preventDefault();
+
+          if (validation()) {
+            alert("Валидация прошла успешно!");
+          }
+        });
+    </script>
+  </body>
+</html>
